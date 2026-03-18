@@ -27,7 +27,7 @@ Automated GitHub Actions workflow that tracks how much of the [Site24x7 REST API
   workflows/
     api-coverage-report.yml   # GitHub Actions workflow
 scripts/
-  coverage_analyzer.py        # Python analyzer (stdlib only)
+  coverage_analyzer.py        # Python analyzer (stdlib only, requires Python 3.10+)
 config/
   site24x7_api_catalog.json   # API catalog (~65 endpoints)
 reports/
@@ -59,6 +59,7 @@ README.md
 ### Run Locally
 
 ```bash
+# Requires Python 3.10+ (tested with Python 3.11)
 # Clone this repository
 git clone https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage.git
 cd site24x7-api-terraform-coverage
@@ -69,7 +70,7 @@ curl -sL "https://raw.githubusercontent.com/site24x7/terraform-provider-site24x7
      -o /tmp/provider_source/provider.go
 
 # Run the analyzer
-python scripts/coverage_analyzer.py \
+python3 scripts/coverage_analyzer.py \
   --provider-file /tmp/provider_source/provider.go \
   --api-catalog config/site24x7_api_catalog.json \
   --output-dir reports/
