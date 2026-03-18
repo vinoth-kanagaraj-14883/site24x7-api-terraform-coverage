@@ -130,7 +130,7 @@ jobs:
           fi
 
       - name: Create or update tracking issue
-        if: ${{ github.event.inputs.create_issue == 'true' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.create_issue }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
