@@ -108,11 +108,11 @@ coverage_analyzer.py  ◄── site24x7_api_catalog.json
         ▼
  ┌──────────────────────────────────────┐
  │  For each catalog entry:             │
- │  • has_resource  → in ResourcesMap?  │
- │  • has_datasource→ in DataSourcesMap?│
- │  • has_docs      → .md in docs/?     │
+ │  • has_resource   → in ResourcesMap? │
+ │  • has_datasource → in DataSourcesMap?│
+ │  • has_docs       → .md in docs/resources│
  │  ─────────────────────────────────── │
- │  full    = resource + docs           │
+ │  full    = resource + resource docs  │
  │  partial = resource or datasource    │
  │  missing = neither                   │
  └──────────────────────────────────────┘
