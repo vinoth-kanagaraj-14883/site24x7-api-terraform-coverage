@@ -306,7 +306,8 @@ def render_markdown_report(data: dict) -> str:
     resources = data["resources"]
     datasources_list = data["datasources"]
 
-    ts = generated_at.replace("T", " ").split(".")[0] + " UTC"
+    dt = datetime.fromisoformat(generated_at)
+    ts = dt.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     pct = s["coverage_percentage"]
     bar = _progress_bar(s["covered"], s["total"], width=30)
 
