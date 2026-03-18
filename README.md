@@ -122,7 +122,7 @@ coverage_analyzer.py  ◄── site24x7_api_catalog.json
 ```
 
 The analyzer:
-1. Parses `provider.go` with regex to extract `ResourcesMap` and `DataSourcesMap` entries
+1. Scans `provider.go` to locate the `ResourcesMap` and `DataSourcesMap` blocks via a brace-counting walk, then applies a regex per line inside those blocks to extract entries
 2. Loads the API catalog (`config/site24x7_api_catalog.json`)
 3. Optionally cross-references the `docs/resources` directory listing from GitHub
 4. Emits four output files into `--output-dir`
