@@ -109,10 +109,20 @@ def parse_docs_listing(listing_path: str | None) -> set[str]:
     try:
         with open(listing_path, encoding="utf-8") as fh:
             data = json.load(fh)
-    except (json.JSONDecodeError, OSError):
+    except (json.JSONDecodeError, OSError) as exc:
+        # Surface failures instead of silently downgrading coverage.
+        print(
+            f"WARNING: Failed to parse docs listing '{listing_path}': {exc}",
+            file=sys.stderr,
+        )
         return set()
 
     if not isinstance(data, list):
+        print(
+            "WARNING: Unexpected JSON structure in docs listing "
+            f"'{listing_path}': expected a list, got {type(data).__name__}",
+            file=sys.stderr,
+        )
         return set()
 
     names: set[str] = set()
