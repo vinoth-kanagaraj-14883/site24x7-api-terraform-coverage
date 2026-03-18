@@ -363,6 +363,45 @@ def render_markdown_report(data: dict) -> str:
         )
     lines.append("")
 
+    # --- Covered endpoints ---
+    fully_covered = [r for r in results if r["coverage_status"] == "full"]
+    partially_covered = [r for r in results if r["coverage_status"] == "partial"]
+
+    def _covered_table(items: list[dict]) -> list[str]:
+        tbl = [
+            "| API Name | Category | Resource Name | Data Source | Has Docs | Coverage | API Docs |",
+            "|----------|----------|---------------|-------------|----------|----------|----------|",
+        ]
+        for item in items:
+            res = f"`{item['terraform_resource_name']}`" if item["terraform_resource_name"] else "—"
+            ds = f"`{item['terraform_datasource_name']}`" if item["terraform_datasource_name"] else "—"
+            has_docs = "✅" if item["has_docs"] else "❌"
+            coverage = "✅ Full" if item["coverage_status"] == "full" else "⚠️ Partial"
+            doc_link = f"[docs]({item['doc_url']})" if item.get("doc_url") else "—"
+            tbl.append(
+                f"| {item['name']} | {item['category']} | {res} | {ds} | {has_docs} | {coverage} | {doc_link} |"
+            )
+        return tbl
+
+    lines += [
+        "## ✅ Covered Endpoints",
+        "",
+        "### ✅ Fully Covered",
+        "",
+    ]
+    if fully_covered:
+        lines += _covered_table(fully_covered)
+    else:
+        lines.append("_None_")
+    lines.append("")
+
+    lines += ["### ⚠️ Partially Covered", ""]
+    if partially_covered:
+        lines += _covered_table(partially_covered)
+    else:
+        lines.append("_None_")
+    lines.append("")
+
     # --- Missing APIs by priority ---
     missing = [r for r in results if r["coverage_status"] == "missing"]
     high_missing = [r for r in missing if r["priority"] == "high"]
