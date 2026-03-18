@@ -445,7 +445,15 @@ def render_markdown_report(data: dict) -> str:
 def render_summary_markdown(data: dict) -> str:
     """Render a shorter summary-only Markdown snippet."""
     s = data["summary"]
-    ts = data["generated_at"].replace("T", " ").split(".")[0] + " UTC"
+    raw_ts = data["generated_at"]
+    try:
+        # Normalize possible trailing 'Z' to '+00:00' for fromisoformat
+        dt = datetime.fromisoformat(raw_ts.replace("Z", "+00:00"))
+        dt_utc = dt.astimezone(timezone.utc)
+        ts = dt_utc.strftime("%Y-%m-%d %H:%M:%S +00:00 UTC")
+    except (TypeError, ValueError):
+        # Fallback to the original string if parsing fails
+        ts = raw_ts
     pct = s["coverage_percentage"]
     bar = _progress_bar(s["covered"], s["total"], width=20)
 
