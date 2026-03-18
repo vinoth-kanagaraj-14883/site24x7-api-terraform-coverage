@@ -78,7 +78,10 @@ def parse_provider_go(provider_go_path: str) -> tuple[dict[str, str], dict[str, 
     ):
         block_body = _extract_map_block(content, map_name)
         if block_body is None:
-            continue
+            raise RuntimeError(
+                f"Failed to extract {map_name} from {provider_go_path}. "
+                "The provider.go format may have changed."
+            )
 
         for line in block_body.splitlines():
             # Skip lines that are purely comments (// is first non-whitespace token)
