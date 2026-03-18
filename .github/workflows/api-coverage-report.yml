@@ -1,0 +1,161 @@
+name: Site24x7 API Coverage Report
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+    inputs:
+      provider_repo:
+        description: "Terraform provider repository"
+        default: "site24x7/terraform-provider-site24x7"
+        required: false
+        type: string
+      provider_branch:
+        description: "Provider branch to analyze"
+        default: "main"
+        required: false
+        type: string
+      create_issue:
+        description: "Create or update a tracking GitHub issue"
+        default: false
+        required: false
+        type: boolean
+  push:
+    branches:
+      - main
+    paths:
+      - "scripts/**"
+      - "config/**"
+      - ".github/workflows/api-coverage-report.yml"
+
+permissions:
+  contents: write
+  issues: write
+
+env:
+  PYTHON_VERSION: "3.11"
+  PROVIDER_REPO: ${{ github.event.inputs.provider_repo || 'site24x7/terraform-provider-site24x7' }}
+  PROVIDER_BRANCH: ${{ github.event.inputs.provider_branch || 'main' }}
+
+jobs:
+  analyze-coverage:
+    name: Analyze API Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch provider source from GitHub
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p /tmp/provider_source
+
+          echo "Downloading provider.go from ${PROVIDER_REPO}@${PROVIDER_BRANCH}..."
+          curl -sf \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github.v3.raw" \
+            "https://api.github.com/repos/${PROVIDER_REPO}/contents/provider/provider.go?ref=${PROVIDER_BRANCH}" \
+            -o /tmp/provider_source/provider.go
+
+          echo "Downloading docs/resources listing..."
+          curl -sf \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${PROVIDER_REPO}/contents/docs/resources?ref=${PROVIDER_BRANCH}" \
+            -o /tmp/provider_source/docs_resources.json
+
+          echo "Downloading docs/data-sources listing..."
+          curl -sf \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${PROVIDER_REPO}/contents/docs/data-sources?ref=${PROVIDER_BRANCH}" \
+            -o /tmp/provider_source/docs_datasources.json \
+            || echo "[]" > /tmp/provider_source/docs_datasources.json
+
+          echo "Provider source files fetched successfully."
+
+      - name: Run coverage analysis
+        run: |
+          mkdir -p reports
+          python scripts/coverage_analyzer.py \
+            --provider-file /tmp/provider_source/provider.go \
+            --api-catalog config/site24x7_api_catalog.json \
+            --docs-resources /tmp/provider_source/docs_resources.json \
+            --docs-datasources /tmp/provider_source/docs_datasources.json \
+            --output-dir reports \
+            --provider-repo "${PROVIDER_REPO}" \
+            --provider-branch "${PROVIDER_BRANCH}"
+
+      - name: Write job summary
+        run: cat reports/coverage_summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-${{ github.run_number }}
+          retention-days: 90
+          path: |
+            reports/coverage_report.md
+            reports/coverage_summary.md
+            reports/coverage_data.json
+            reports/coverage_badge.json
+
+      - name: Commit report to repository
+        run: |
+          cp reports/coverage_report.md   reports/LATEST_REPORT.md
+          cp reports/coverage_data.json   reports/LATEST_DATA.json
+          cp reports/coverage_badge.json  reports/LATEST_BADGE.json
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add reports/LATEST_REPORT.md reports/LATEST_DATA.json reports/LATEST_BADGE.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "📊 Update API coverage report [skip ci]"
+            git push
+          fi
+
+      - name: Create or update tracking issue
+        if: ${{ github.event.inputs.create_issue == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SUMMARY=$(cat reports/coverage_summary.md)
+          EXISTING_ISSUE=$(gh issue list \
+            --label "api-coverage" \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty' \
+            2>/dev/null || true)
+
+          if [ -n "$EXISTING_ISSUE" ]; then
+            echo "Commenting on existing issue #${EXISTING_ISSUE}..."
+            gh issue comment "$EXISTING_ISSUE" \
+              --body "## 📊 Coverage Report Update — $(date -u '+%Y-%m-%d %H:%M UTC')
+
+${SUMMARY}"
+          else
+            echo "Creating new tracking issue..."
+            gh issue create \
+              --title "📊 Site24x7 API Coverage Tracking" \
+              --label "api-coverage" \
+              --body "## 📊 Site24x7 API Coverage Tracking
+
+This issue is automatically updated by the API Coverage Report workflow.
+
+${SUMMARY}"
+          fi
