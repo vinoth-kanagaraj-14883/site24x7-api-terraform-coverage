@@ -1,0 +1,100 @@
+name: "Agent 02: Generate Terraform Resource for Missing API"
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_api:
+        description: "API name from catalog to implement (leave empty for auto-pick highest priority)"
+        required: false
+        type: string
+      priority_filter:
+        description: "Minimum priority level to consider for auto-pick"
+        default: "high"
+        required: false
+        type: choice
+        options: ["high", "medium", "low"]
+      dry_run:
+        description: "Generate files locally without creating PR"
+        default: true
+        required: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  PYTHON_VERSION: "3.11"
+  PROVIDER_REPO: "site24x7/terraform-provider-site24x7"
+
+jobs:
+  generate-resource:
+    name: Generate Terraform Resource
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch provider source for reference
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p /tmp/provider_source
+
+          echo "Downloading provider.go for reference patterns..."
+          curl -sf \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github.v3.raw" \
+            "https://api.github.com/repos/${PROVIDER_REPO}/contents/provider/provider.go?ref=main" \
+            -o /tmp/provider_source/provider.go || echo "Could not fetch provider.go"
+
+          echo "Provider reference fetched."
+
+      - name: Generate Terraform resource files
+        id: generate
+        run: |
+          python scripts/resource_generator.py \
+            --coverage-data reports/LATEST_DATA.json \
+            --api-catalog config/site24x7_api_catalog.json \
+            --target-api "${{ inputs.target_api }}" \
+            --priority "${{ inputs.priority_filter }}" \
+            --output-dir generated/ \
+            --provider-repo "${PROVIDER_REPO}"
+
+      - name: Write job summary
+        if: always()
+        run: |
+          if [ -f generated/generation_summary.md ]; then
+            cat generated/generation_summary.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload generated artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-terraform-resource-${{ github.run_number }}
+          retention-days: 90
+          path: generated/
+
+      - name: Commit generated files to repository
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add generated/
+          if git diff --cached --quiet; then
+            echo "No new generated files to commit."
+          else
+            API_NAME=$(cat generated/.api_name 2>/dev/null || echo "unknown")
+            git commit -m "🤖 Generate Terraform resource scaffold for ${API_NAME} [skip ci]"
+            git push
+          fi
