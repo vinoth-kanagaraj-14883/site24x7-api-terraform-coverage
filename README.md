@@ -158,4 +158,4 @@ To track a new Site24x7 API endpoint, add an entry to `config/site24x7_api_catal
 
 ## 📜 License
 
-MIT © 2024 [vinoth-kanagaraj-14883](https://github.com/vinoth-kanagaraj-14883)
+This is a vibe coding project repository from Site24x7 PM team. [vinoth-kanagaraj-14883](https://github.com/vinoth-kanagaraj-14883)
