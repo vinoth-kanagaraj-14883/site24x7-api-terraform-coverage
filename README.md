@@ -1,6 +1,6 @@
 # 📊 Site24x7 Terraform Provider — API Coverage Analyzer
 
-[![API Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage/main/reports/LATEST_BADGE.json)](reports/LATEST_REPORT.md)
+[![API Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fvinoth-kanagaraj-14883%2Fsite24x7-api-terraform-coverage%2Fmain%2Freports%2FLATEST_BADGE.json&cacheSeconds=3600)](reports/LATEST_REPORT.md)
 [![Coverage Workflow](https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage/actions/workflows/api-coverage-report.yml/badge.svg)](https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage/actions/workflows/api-coverage-report.yml)
 
 Automated GitHub Actions workflow that tracks how much of the [Site24x7 REST API](https://www.site24x7.com/help/api/) is covered by the [Terraform Provider](https://github.com/site24x7/terraform-provider-site24x7).
