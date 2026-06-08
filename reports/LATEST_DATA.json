@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-01T13:27:47.699315+00:00",
+  "generated_at": "2026-06-08T12:24:52.398780+00:00",
   "provider_repo": "site24x7/terraform-provider-site24x7",
   "provider_branch": "main",
   "summary": {
@@ -1056,6 +1056,7 @@
     "site24x7_location_profile",
     "site24x7_monitor_group",
     "site24x7_notification_profile",
+    "site24x7_oauth2_provider",
     "site24x7_opsgenie_integration",
     "site24x7_pagerduty_integration",
     "site24x7_ping_monitor",
@@ -1093,6 +1094,7 @@
     "site24x7_monitors",
     "site24x7_msp",
     "site24x7_notification_profile",
+    "site24x7_oauth2_provider",
     "site24x7_tag",
     "site24x7_threshold_profile",
     "site24x7_user",

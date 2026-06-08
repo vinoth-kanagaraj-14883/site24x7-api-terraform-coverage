@@ -1,6 +1,6 @@
 # 📊 Site24x7 Terraform Provider — API Coverage Report
 
-**Generated:** 2026-06-01 13:27:47 UTC  
+**Generated:** 2026-06-08 12:24:52 UTC  
 **Provider:** [site24x7/terraform-provider-site24x7](https://github.com/site24x7/terraform-provider-site24x7)  
 **Branch:** `main`
 
@@ -146,7 +146,7 @@ Overall: [████████████████████░░░�
 </details>
 
 <details>
-<summary>✅ Implemented Resources (40)</summary>
+<summary>✅ Implemented Resources (41)</summary>
 
 | Resource Name |
 |---------------|
@@ -166,6 +166,7 @@ Overall: [████████████████████░░░�
 | `site24x7_location_profile` |
 | `site24x7_monitor_group` |
 | `site24x7_notification_profile` |
+| `site24x7_oauth2_provider` |
 | `site24x7_opsgenie_integration` |
 | `site24x7_pagerduty_integration` |
 | `site24x7_ping_monitor` |
@@ -194,7 +195,7 @@ Overall: [████████████████████░░░�
 </details>
 
 <details>
-<summary>✅ Implemented Data Sources (15)</summary>
+<summary>✅ Implemented Data Sources (16)</summary>
 
 | Data Source Name |
 |------------------|
@@ -209,6 +210,7 @@ Overall: [████████████████████░░░�
 | `site24x7_monitors` |
 | `site24x7_msp` |
 | `site24x7_notification_profile` |
+| `site24x7_oauth2_provider` |
 | `site24x7_tag` |
 | `site24x7_threshold_profile` |
 | `site24x7_user` |
@@ -218,4 +220,4 @@ Overall: [████████████████████░░░�
 
 ---
 
-*Report generated automatically by [site24x7-api-terraform-coverage](https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage) · 2026-06-01 13:27:47 UTC*
+*Report generated automatically by [site24x7-api-terraform-coverage](https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage) · 2026-06-08 12:24:52 UTC*
