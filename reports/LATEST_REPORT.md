@@ -1,6 +1,6 @@
 # 📊 Site24x7 Terraform Provider — API Coverage Report
 
-**Generated:** 2026-06-15 13:47:16 UTC  
+**Generated:** 2026-06-22 13:26:40 UTC  
 **Provider:** [site24x7/terraform-provider-site24x7](https://github.com/site24x7/terraform-provider-site24x7)  
 **Branch:** `main`
 
@@ -146,11 +146,12 @@ Overall: [████████████████████░░░�
 </details>
 
 <details>
-<summary>✅ Implemented Resources (41)</summary>
+<summary>✅ Implemented Resources (44)</summary>
 
 | Resource Name |
 |---------------|
 | `site24x7_amazon_monitor` |
+| `site24x7_attribute_alert_group` |
 | `site24x7_azure_monitor` |
 | `site24x7_businesshour` |
 | `site24x7_connectwise_integration` |
@@ -164,6 +165,7 @@ Overall: [████████████████████░░░�
 | `site24x7_heartbeat_monitor` |
 | `site24x7_isp_monitor` |
 | `site24x7_location_profile` |
+| `site24x7_milestone_marker` |
 | `site24x7_monitor_group` |
 | `site24x7_notification_profile` |
 | `site24x7_oauth2_provider` |
@@ -177,6 +179,7 @@ Overall: [████████████████████░░░�
 | `site24x7_schedule_report` |
 | `site24x7_server_monitor` |
 | `site24x7_servicenow_integration` |
+| `site24x7_sla_setting` |
 | `site24x7_slack_integration` |
 | `site24x7_soap_monitor` |
 | `site24x7_ssl_monitor` |
@@ -195,10 +198,11 @@ Overall: [████████████████████░░░�
 </details>
 
 <details>
-<summary>✅ Implemented Data Sources (16)</summary>
+<summary>✅ Implemented Data Sources (18)</summary>
 
 | Data Source Name |
 |------------------|
+| `site24x7_attribute_alert_group` |
 | `site24x7_aws_external_id` |
 | `site24x7_credential_profile` |
 | `site24x7_customer` |
@@ -211,6 +215,7 @@ Overall: [████████████████████░░░�
 | `site24x7_msp` |
 | `site24x7_notification_profile` |
 | `site24x7_oauth2_provider` |
+| `site24x7_sla_setting` |
 | `site24x7_tag` |
 | `site24x7_threshold_profile` |
 | `site24x7_user` |
@@ -220,4 +225,4 @@ Overall: [████████████████████░░░�
 
 ---
 
-*Report generated automatically by [site24x7-api-terraform-coverage](https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage) · 2026-06-15 13:47:16 UTC*
+*Report generated automatically by [site24x7-api-terraform-coverage](https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage) · 2026-06-22 13:26:40 UTC*
