@@ -1,6 +1,6 @@
 # 📊 Site24x7 Terraform Provider — API Coverage Report
 
-**Generated:** 2026-07-13 10:50:17 UTC  
+**Generated:** 2026-07-20 10:41:46 UTC  
 **Provider:** [site24x7/terraform-provider-site24x7](https://github.com/site24x7/terraform-provider-site24x7)  
 **Branch:** `main`
 
@@ -225,4 +225,4 @@ Overall: [████████████████████░░░�
 
 ---
 
-*Report generated automatically by [site24x7-api-terraform-coverage](https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage) · 2026-07-13 10:50:17 UTC*
+*Report generated automatically by [site24x7-api-terraform-coverage](https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage) · 2026-07-20 10:41:46 UTC*
