@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-07T13:48:41.156182+00:00",
+  "generated_at": "2026-09-14T14:34:22.175207+00:00",
   "provider_repo": "site24x7/terraform-provider-site24x7",
   "provider_branch": "main",
   "summary": {
@@ -1041,6 +1041,8 @@
   ],
   "resources": [
     "site24x7_amazon_monitor",
+    "site24x7_apm_agent_config_profile",
+    "site24x7_apm_application",
     "site24x7_attribute_alert_group",
     "site24x7_azure_monitor",
     "site24x7_businesshour",
@@ -1086,6 +1088,12 @@
     "site24x7_website_monitor"
   ],
   "datasources": [
+    "site24x7_apm_agent_config_profile",
+    "site24x7_apm_agent_config_profiles",
+    "site24x7_apm_application",
+    "site24x7_apm_applications",
+    "site24x7_apm_instance",
+    "site24x7_apm_instances",
     "site24x7_attribute_alert_group",
     "site24x7_aws_external_id",
     "site24x7_credential_profile",

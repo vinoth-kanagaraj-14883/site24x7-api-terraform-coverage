@@ -1,6 +1,6 @@
 # 📊 Site24x7 Terraform Provider — API Coverage Report
 
-**Generated:** 2026-09-07 13:48:41 UTC  
+**Generated:** 2026-09-14 14:34:22 UTC  
 **Provider:** [site24x7/terraform-provider-site24x7](https://github.com/site24x7/terraform-provider-site24x7)  
 **Branch:** `main`
 
@@ -146,11 +146,13 @@ Overall: [████████████████████░░░�
 </details>
 
 <details>
-<summary>✅ Implemented Resources (44)</summary>
+<summary>✅ Implemented Resources (46)</summary>
 
 | Resource Name |
 |---------------|
 | `site24x7_amazon_monitor` |
+| `site24x7_apm_agent_config_profile` |
+| `site24x7_apm_application` |
 | `site24x7_attribute_alert_group` |
 | `site24x7_azure_monitor` |
 | `site24x7_businesshour` |
@@ -198,10 +200,16 @@ Overall: [████████████████████░░░�
 </details>
 
 <details>
-<summary>✅ Implemented Data Sources (18)</summary>
+<summary>✅ Implemented Data Sources (24)</summary>
 
 | Data Source Name |
 |------------------|
+| `site24x7_apm_agent_config_profile` |
+| `site24x7_apm_agent_config_profiles` |
+| `site24x7_apm_application` |
+| `site24x7_apm_applications` |
+| `site24x7_apm_instance` |
+| `site24x7_apm_instances` |
 | `site24x7_attribute_alert_group` |
 | `site24x7_aws_external_id` |
 | `site24x7_credential_profile` |
@@ -225,4 +233,4 @@ Overall: [████████████████████░░░�
 
 ---
 
-*Report generated automatically by [site24x7-api-terraform-coverage](https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage) · 2026-09-07 13:48:41 UTC*
+*Report generated automatically by [site24x7-api-terraform-coverage](https://github.com/vinoth-kanagaraj-14883/site24x7-api-terraform-coverage) · 2026-09-14 14:34:22 UTC*
