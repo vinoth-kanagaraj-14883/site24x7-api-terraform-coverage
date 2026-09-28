@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-21T14:41:40.017448+00:00",
+  "generated_at": "2026-09-28T16:16:15.254785+00:00",
   "provider_repo": "site24x7/terraform-provider-site24x7",
   "provider_branch": "main",
   "summary": {
@@ -1107,6 +1107,7 @@
     "site24x7_msp",
     "site24x7_notification_profile",
     "site24x7_oauth2_provider",
+    "site24x7_schedule_maintenances",
     "site24x7_sla_setting",
     "site24x7_tag",
     "site24x7_threshold_profile",
